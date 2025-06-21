@@ -16,3 +16,4 @@ The application included on the common development tools script are opt-in, you 
 - [x] Warp terminal
 - [x] NodeJS
 - [x] Git (with interactive configuration for user.name and user.email)
+- [x] Rustup (Rust installation is managed by Rustup)
