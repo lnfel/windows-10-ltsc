@@ -21,6 +21,7 @@ $downloadsFolder = "$($HOME)\Downloads"
 
 # Powershell
 # TODO: Figure out how to check latest release via Microsoft website or Github release
+# Check Powershell version using $PSVersionTable.PSVersion
 $psversion = "$($PSVersionTable.PSVersion.Major).$($PSVersionTable.PSVersion.Minor)"
 Write-Host "Current Powershell version is $($psversion)"
 if ($psversion -ne "7.5") {
@@ -43,21 +44,18 @@ if ($psversion -ne "7.5") {
     }
 }
 
-if (Test-Path $PROFILE) {
-    # Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
-    Add-Content -Path $PROFILE -Value "# Use Powershell 7.5 as default"
-    Add-Content -Path $PROFILE -Value "& $($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe"
-} else {
-    # Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
-    New-Item -Path $PROFILE -ItemType file
-    Add-Content -Path $PROFILE -Value "# Use Powershell 7.5 as default"
-    Add-Content -Path $PROFILE -Value "& $($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe"
-    # "`n& $($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe" | tee $PROFILE
-    # & "$($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe" >> $PROFILE
-    # Set-ExecutionPolicy Restricted
-}
+# $PROFILE is $HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+# if (Test-Path $PROFILE) {
+#     Add-Content -Path $PROFILE -Value "# Use Powershell 7.5 as default"
+#     Add-Content -Path $PROFILE -Value "& $($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe"
+# } else {
+#     New-Item -Path $PROFILE -ItemType file
+#     Add-Content -Path $PROFILE -Value "# Use Powershell 7.5 as default"
+#     Add-Content -Path $PROFILE -Value "& $($downloadsFolder)\PowerShell-7.5.1-win-x64\pwsh.exe"
+# }
 
 # WintGet Dependencies
+# https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-hashtable?view=powershell-7.5
 $deps = @(
     @{
         name = "WinGet msixbundle"
@@ -135,6 +133,7 @@ $tools = @(
     @{
         name = "VSCode"
         id = "Microsoft.VisualStudioCode"
+        version = "1.80.1"
     }
     @{
         name = "Warp"
@@ -200,10 +199,15 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
             }
             
             $params = $Using:app
-            Write-Host "Installing $($params.name)"
             # Invoke winget install command
             Strip-Progress -ScriptBlock {
-                winget install $params.id
+                if ($params.ContainsKey("version")) {
+                    Write-Host "Installing $($params.name) $($params.version)"
+                    winget install $params.id --version $params.version
+                } else {
+                    Write-Host "Installing $($params.name) latest"
+                    winget install $params.id
+                }
             }
             # Strip-Progress -ScriptBlock {
             #     winget install $params.id --accept-package-agreements --accept-source-agreements --force | tee output.txt
