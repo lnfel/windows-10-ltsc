@@ -171,7 +171,7 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
         $wingetQueue += Start-ThreadJob -Name $app.name -ScriptBlock {
             # Clean WinGet logs when invoked using powershell or other scripts
             # https://github.com/microsoft/winget-cli/issues/2582#issuecomment-1945481998
-            function Strip-Progress {
+            function Remove-Progressbar {
                 param(
                     [ScriptBlock]$ScriptBlock
                 )
@@ -204,7 +204,7 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
             
             $params = $Using:app
             # Invoke winget install command
-            Strip-Progress -ScriptBlock {
+            Remove-Progressbar -ScriptBlock {
                 if ($params.ContainsKey("version")) {
                     Write-Host "Installing $($params.name) $($params.version)"
                     winget install $params.id --version $params.version
@@ -213,7 +213,7 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
                     winget install $params.id
                 }
             }
-            # Strip-Progress -ScriptBlock {
+            # Remove-Progressbar -ScriptBlock {
             #     winget install $params.id --accept-package-agreements --accept-source-agreements --force | tee output.txt
             # }
 
