@@ -177,7 +177,8 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
                 )
 
                 # Regex pattern to match spinner characters and progress bar patterns
-                $progressPattern = 'Γû[Æê]|Γû[ê]|^\s+[-\\|/]\s+$'
+                # $progressPattern = 'Γû[Æê]|Γû[ê]|^\s+[-\\|/]\s+$'
+                $progressPattern = 'Γû[Æê]|^\s+[-\\|/]\s+$'
 
                 # Corrected regex pattern for size formatting, ensuring proper capture groups are utilized
                 $sizePattern = '(\d+(\.\d{1,2})?)\s+(B|KB|MB|GB|TB|PB) /\s+(\d+(\.\d{1,2})?)\s+(B|KB|MB|GB|TB|PB)'
