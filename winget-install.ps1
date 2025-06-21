@@ -151,6 +151,10 @@ $tools = @(
         name = "Microsoft Git"
         id = "Microsoft.Git"
     }
+    @{
+        name = "Rustup"
+        id = "Rustlang.Rustup"
+    }
 )
 
 $wingetQueue = @()
