@@ -13,7 +13,7 @@ This repository holds automation scripts written in powershell for configuring P
 The application included on the common development tools script are opt-in, you can skip running it entirely. For the record apps can be selected via interactive prompt before installation begins. Here are the list of apps:
 
 - [x] VSCode
-- [x] Warp terminal
+- [x] Warp terminal (with interactive configuration for adding custom themes)
 - [x] NodeJS
 - [x] Git (with interactive configuration for user.name and user.email)
 - [x] Rustup (Rust installation is managed by Rustup)
