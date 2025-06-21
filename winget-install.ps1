@@ -241,4 +241,46 @@ $email = Read-Host "Email"
 git config --global user.name $username
 git config --global user.email $email
 
+# Configure Warp theme
+# https://docs.warp.dev/terminal/appearance/custom-themes#warps-custom-theme-repository
+do {
+    $configureWarp = Read-Host -Prompt "Configure Warp theme? (Y/N)"
+    $configureWarp = $configureWarp.ToLower()
+} until ($configureWarp -eq 'y' -or $configureWarp -eq 'n')
+
+if ($configureWarp -eq 'y') {
+    Write-Host "Configuring Warp theme"
+    $warpThemesPath = "$env:APPDATA\warp\Warp\data\themes"
+    New-Item -Path $warpThemesPath -ItemType Directory
+    Set-Location -Path $warpThemesPath
+    $defaultCustomThemeName = "suisei-tokyo-night"
+    $themeName = Read-Host -Prompt "Theme name (default: $($defaultCustomThemeName))"
+    if ([string]::IsNullOrWhiteSpace($themeName)) {
+        $themeName = $defaultCustomThemeName
+    }
+
+    $themePath = "$($warpThemesPath)\$($themeName)"
+    New-Item -Path $themePath -ItemType Directory
+    Set-Location -Path $themePath
+
+    if ($themeName -eq $defaultCustomThemeName) {
+        $themeWallpaperPath = "$($themePath)\wallpaper"
+        New-Item -Path $themeWallpaperPath -ItemType Directory
+
+        $yamlURL = "https://cdn.discordapp.com/attachments/1350002020668538931/1385963691635380224/suisei-tokyo-night.yaml?ex=6857fac6&is=6856a946&hm=a727d48d359cbdb961669c6b2d1baa408130d4452ee5be90d466cd573e1b1b92&"
+        $yamlFilename = Split-Path $yamlURL.Split('?')[0] -Leaf
+        Invoke-WebRequest -Uri $yamlURL -OutFile "$($themePath)\$($yamlFilename)"
+
+        $themeWallpaperURL = "https://media.discordapp.net/attachments/1350002020668538931/1355012172685512894/suisei_august_2023.webp?ex=6857706c&is=68561eec&hm=fbe138e72a6b0c4c53f8b718c9cf3b1c5d100d510ab71af79355842922e54603&=&format=webp&width=1381&height=777"
+        $wallpaperFilename = Split-Path $themeWallpaperURL.Split('?')[0] -Leaf
+        Invoke-WebRequest -Uri $themeWallpaperURL -OutFile "$($themeWallpaperPath)\$($wallpaperFilename)"
+    } else {
+        $yamlURL = Read-Host -Prompt "URL of yaml file for $($themeName) theme (Press Enter to skip)"
+        if (-not [string]::IsNullOrEmpty($yamlURL)) {
+            $yamlFilename = Split-Path $yamlURL.Split('?')[0] -Leaf
+            Invoke-WebRequest -Uri $yamlURL -OutFile "$($themePath)\$($yamlFilename)"
+        }
+    }
+}
+
 Read-Host -Prompt "Press Enter to continue"
