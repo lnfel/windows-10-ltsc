@@ -5,11 +5,11 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
     if (Get-Module ThreadJob -ListAvailable) {
         Write-Host "ThreadJob module is available but not imported. Importing module..."
         Import-Module ThreadJob
-        if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
-            Write-Host "Start-ThreadJob is now available."
-        } else {
-            Write-Host "Failed to import ThreadJob module correctly."
-        }
+        # if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
+        #     Write-Host "Start-ThreadJob is now available."
+        # } else {
+        #     Write-Host "Failed to import ThreadJob module correctly."
+        # }
     } else {
         # Write-Host "ThreadJob module is not installed. Please install it using:"
         # Write-Host "Install-Module -Name ThreadJob -Scope CurrentUser"
