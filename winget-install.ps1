@@ -208,10 +208,10 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
             Remove-Progressbar -ScriptBlock {
                 if ($params.ContainsKey("version")) {
                     Write-Host "Installing $($params.name) $($params.version)"
-                    winget install $params.id --version $params.version
+                    winget install $params.id --version $params.version --accept-package-agreements --accept-source-agreements
                 } else {
                     Write-Host "Installing $($params.name) latest"
-                    winget install $params.id
+                    winget install $params.id --accept-package-agreements --accept-source-agreements
                 }
             }
             # Remove-Progressbar -ScriptBlock {
