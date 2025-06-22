@@ -267,11 +267,11 @@ if ($configureWarp -eq 'y') {
         $themeWallpaperPath = "$($themePath)\wallpaper"
         New-Item -Path $themeWallpaperPath -ItemType Directory
 
-        $yamlURL = "https://cdn.discordapp.com/attachments/1350002020668538931/1385963691635380224/suisei-tokyo-night.yaml?ex=6857fac6&is=6856a946&hm=a727d48d359cbdb961669c6b2d1baa408130d4452ee5be90d466cd573e1b1b92&"
+        $yamlURL = "https://raw.githubusercontent.com/lnfel/windows-10-ltsc/refs/heads/main/warp/themes/suisei-tokyo-night/suisei-tokyo-night.yaml"
         $yamlFilename = Split-Path $yamlURL.Split('?')[0] -Leaf
         Invoke-WebRequest -Uri $yamlURL -OutFile "$($themePath)\$($yamlFilename)"
 
-        $themeWallpaperURL = "https://media.discordapp.net/attachments/1350002020668538931/1355012172685512894/suisei_august_2023.webp?ex=6857706c&is=68561eec&hm=fbe138e72a6b0c4c53f8b718c9cf3b1c5d100d510ab71af79355842922e54603&=&format=webp&width=1381&height=777"
+        $themeWallpaperURL = "https://raw.githubusercontent.com/lnfel/windows-10-ltsc/refs/heads/main/warp/themes/suisei-tokyo-night/wallpaper/suisei_august_2023.webp"
         $wallpaperFilename = Split-Path $themeWallpaperURL.Split('?')[0] -Leaf
         Invoke-WebRequest -Uri $themeWallpaperURL -OutFile "$($themeWallpaperPath)\$($wallpaperFilename)"
     } else {
