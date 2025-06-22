@@ -238,8 +238,15 @@ if (Get-Command Start-ThreadJob -ErrorAction SilentlyContinue) {
 Write-Host "Configuring git"
 $username = Read-Host "Username"
 $email = Read-Host "Email"
-git config --global user.name $username
-git config --global user.email $email
+# Start-Process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "config --global user.name $($username)"
+# Start-Process -FilePath "C:\Program Files\Git\cmd\git.exe" -ArgumentList "config --global user.email $($email)"
+
+# Recently installed application path will not be available on the current context so we use absolute path to execute git command
+# 
+# For simple commands or executables that are designed to run synchronously and output to the console, you can often achieve the desired result by directly invoking them using Invoke-Expression or the call operator (&).
+# This runs the command within the current PowerShell session, allowing its output to be captured directly.
+& "C:\Program Files\Git\cmd\git.exe" config --global user.name $username
+& "C:\Program Files\Git\cmd\git.exe" config --global user.email $email
 
 # Configure Warp theme
 # https://docs.warp.dev/terminal/appearance/custom-themes#warps-custom-theme-repository
